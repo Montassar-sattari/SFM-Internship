@@ -1,0 +1,107 @@
+<!-- -->
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title >
+      <div>
+        <h5>Nice to see again <strong >{{user}}</strong></h5>
+      </div>
+      <ion-thumbnail slot="end" *ngIf="this?.photo">
+        <ion-img height="50" [src]="this?.photo"></ion-img>
+      </ion-thumbnail>
+    </ion-title>
+
+    <ion-buttons end>
+      <!--<button ion-button tappable (click)="presentNotifications($event)">
+        <ion-icon name="notifications"></ion-icon>
+      </button>-->
+      <button ion-button tappable (click)="goToAccount()">
+        <ion-icon name="settings"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="animated fadeIn common-bg">
+
+  <ion-card no-margin margin-bottom class="full-width">
+
+    <ion-item  class="border-bottom">
+      <ion-icon name="search" color="primary" item-left></ion-icon>
+     <!-- <ion-input name="search" placeholder="choose your sport" [(ngModel)]="search.name"></ion-input>-->
+      <ion-select placeholder="Sport" [(ngModel)]="search.name" >
+        <ion-option *ngFor="let sport of sports" required="true" [value]="sport.name" >{{sport.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-card>
+
+
+    <ion-card no-margin margin-bottom class="full-width">
+    <ion-item>
+      <ion-icon name="md-calendar" color="primary" item-left></ion-icon>
+      <ion-datetime class="no-pl" displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY" [(ngModel)]="search.date"></ion-datetime>
+    </ion-item>
+  </ion-card>
+
+  <button ion-button icon-start block no-margin color="primary" class="round" tappable (click)="doSearch()">
+    <ion-icon name="search"></ion-icon> Search
+  </button>
+
+  <ion-card>
+
+    <ion-card-content *ngIf="RawAnnounces">
+      <ion-list *ngFor="let a of RawAnnounces" >
+
+        <ion-item >
+          <ion-label color="light">
+            Description: <strong> {{a.description}}</strong>
+          </ion-label>
+        </ion-item>
+
+        <ion-item >
+          <ion-label color="light">
+            Type: <strong >{{a.type}}</strong>
+          </ion-label>
+        </ion-item>
+
+        <ion-item >
+          <ion-label color="light">
+            Date: <strong> {{a.date}}</strong>
+          </ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="this.isParticipated(a.id,this.user)==false">
+          <div>
+            <button ion-button icon-start block no-margin color="primary" class="round" tappable (click)="onParticipate(a)" >
+              <ion-icon name="person"></ion-icon>  Participate
+            </button>
+          </div>
+        </ion-item>
+        <ion-item *ngIf="this.isParticipated(a.id,this.user)==true">
+        <div>
+          <button ion-button icon-start block no-margin color="danger" class="round"  >
+            <ion-icon name="checkmark-circle"></ion-icon>  Participated
+          </button>
+        </div>
+      </ion-item>
+        
+        <ion-item>
+        <ion-card *ngIf="show==true">
+          <ion-card-content>
+            <agm-map [latitude]="a.locations[0].latitude" [longitude]="a.locations[0].longitude" >
+              <agm-marker [latitude]="a.locations[0].latitude" [longitude]="a.locations[0].longitude">
+              </agm-marker>
+            </agm-map>
+          </ion-card-content>
+        </ion-card>
+        </ion-item>
+
+
+
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

@@ -1,0 +1,72 @@
+
+
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Create Announce</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="announce-page">
+
+
+
+  <form [formGroup]="AnnounceForm" (ngSubmit)="onCreateAnnounce()">
+    <div class="form-group">
+      <ion-label>
+        <ion-icon  name="arrow-dropdown-circle" item-start class="text-primary"></ion-icon>
+        <strong>Type</strong>
+      </ion-label>
+      <ion-input type="text" placeholder="Announce type" formControlName="Type" class="ion-input" [ngClass]="{ 'is-invalid': submitted && f.Type.errors }" ></ion-input>
+      <div *ngIf="submitted && f.Type.errors" class="invalid-feedback">
+        <div *ngIf="f.Type.errors.required">this field is required</div>
+        <div *ngIf="f.Type.errors.maxlength">Max 20 characters</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <ion-label>
+        <ion-icon name="clipboard" item-start class="text-primary"></ion-icon>
+        <strong>Description</strong></ion-label>
+      <ion-input type="text" placeholder="Announce description" formControlName="Description" class="ion-input" [ngClass]="{ 'is-invalid': submitted && f.Description.errors }" ></ion-input>
+      <div *ngIf="submitted && f.Description.errors" class="invalid-feedback">
+        <div  *ngIf="f.Description.errors.required">this field is required</div>
+        <div *ngIf="f.Description.errors.maxlength">Max 50 characters</div>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <ion-item class="form-group">
+      <ion-label>
+        <ion-icon name="football" item-start class="text-primary"></ion-icon>
+        <strong class="text-primary">Sport</strong>
+      </ion-label>
+          <ion-select placeholder="which Sport..?" formControlName="Sport">
+            <ion-option *ngFor="let sport of sports" required="true" [value]="sport.name" >{{sport.name}}</ion-option>
+          </ion-select>
+      </ion-item>
+    </div>
+
+
+    <div>
+      <ion-item class="form-group">
+      <ion-label>
+        <ion-icon name="md-calendar"  item-start class="text-primary"></ion-icon>
+        <strong class="text-primary">Date</strong></ion-label>
+      <ion-datetime  displayFormat="DD/MM/YYYY" [min]="date" max="2090-12-09" value="2019-09-23T15:03:46.789"  placeholder="Select Announce Date" formControlName="Date"></ion-datetime>
+      </ion-item>
+    </div>
+
+
+    <div class="form-group">
+      <button ion-button block color="dark" tappable type="submit">
+        Create
+      </button>
+    </div>
+  </form>
+
+
+</ion-content>
